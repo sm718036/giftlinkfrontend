@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap
-import "/public/static/home.css";
+import "./home.css"; // Import your custom CSS file
 
 const HomePage = () => {
   return (
