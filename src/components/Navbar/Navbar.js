@@ -59,9 +59,9 @@ export default function Navbar() {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <a className="nav-link" href="/home.html">
                 Home
-              </Link>{" "}
+              </a>{" "}
               {/* Link to home.html */}
             </li>
             <li className="nav-item">
