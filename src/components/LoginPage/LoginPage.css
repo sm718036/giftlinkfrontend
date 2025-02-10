@@ -1,0 +1,79 @@
+/* Login Card */
+.login-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Heading */
+.login-card h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Form Inputs */
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Error Message */
+span {
+  color: red;
+  font-size: 12px;
+  font-style: italic;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Button */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Register Link */
+.text-primary {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.text-primary:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+  }
+}
