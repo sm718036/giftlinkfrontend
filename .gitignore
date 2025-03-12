@@ -13,8 +13,8 @@ dist-ssr
 *.local
 
 # dotenv files
-.env.local
-.env.*.local
+.env*
+*.env
 
 # Editor directories and files
 .vscode/*
