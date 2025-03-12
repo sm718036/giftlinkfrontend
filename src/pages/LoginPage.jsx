@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import { urlConfig } from "../config";
 
@@ -113,9 +113,9 @@ export default function SignIn() {
         </form>
         <p className="mt-4 text-center text-gray-600">
           New here?
-          <a className="text-blue-500 hover:underline" href="/app/register">
+          <Link className="text-blue-500 hover:underline" to="/app/register">
             <span> Register Here</span>
-          </a>
+          </Link>
         </p>
       </div>
     </div>

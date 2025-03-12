@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import { urlConfig } from "../config";
 
@@ -124,12 +124,12 @@ function RegisterPage() {
         </form>
         <p className="mt-4 text-gray-600">
           Already a member?{" "}
-          <a
-            href="/app/login"
+          <Link
+            to="/app/login"
             className="text-purple-500 hover:text-purple-700"
           >
             Login
-          </a>
+          </Link>
         </p>
       </div>
     </div>
