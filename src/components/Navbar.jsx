@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
-import { urlConfig } from "../config.js";
 
 export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn, userName, setUserName } = useAppContext();

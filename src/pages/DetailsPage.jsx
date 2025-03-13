@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { urlConfig } from "../config";
+import toast from "react-hot-toast";
 
 function DetailsPage() {
   const navigate = useNavigate();
@@ -24,8 +25,11 @@ function DetailsPage() {
         }
         const data = await response.json();
         setGift(data);
+        return;
       } catch (error) {
         setError(error.message);
+        toast.error(error.message);
+        return;
       } finally {
         setLoading(false);
       }
@@ -36,6 +40,7 @@ function DetailsPage() {
 
   const handleBackClick = () => {
     navigate(-1);
+    return;
   };
 
   //The comments have been hardcoded for this project.

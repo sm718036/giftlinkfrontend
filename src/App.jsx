@@ -8,6 +8,7 @@ import DetailsPage from "./pages/DetailsPage";
 import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import { urlConfig } from "../config";
+import toast from "react-hot-toast";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ function RegisterPage() {
     email: "",
     password: "",
   });
-  const [errMsg, setErrMsg] = useState(null);
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAppContext();
 
@@ -19,10 +19,7 @@ function RegisterPage() {
   };
 
   function showError(message) {
-    setErrMsg(message);
-    setTimeout(() => {
-      setErrMsg(null);
-    }, 5000);
+    toast.error(message);
   }
 
   const handleRegister = async (e) => {
@@ -54,6 +51,7 @@ function RegisterPage() {
         sessionStorage.setItem("email", data.email);
         setIsLoggedIn(true);
         navigate("/app");
+        toast.success("Registration successful");
       }
     } catch (err) {
       showError(err.message);
@@ -112,9 +110,6 @@ function RegisterPage() {
               required
             />
           </div>
-          {errMsg && (
-            <small className="text-red-500 rounded-lg">{errMsg}</small>
-          )}
           <button
             type="submit"
             className="w-full py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-lg transition duration-300 cursor-pointer"

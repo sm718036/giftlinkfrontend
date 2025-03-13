@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { urlConfig } from "../config";
+import toast from "react-hot-toast";
 
 function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,14 +19,13 @@ function SearchPage() {
     try {
       let url = `${urlConfig.backendUrl}/api/gifts`;
       const response = await fetch(url);
-      if (!response.ok) {
-        //something went wrong
-        throw new Error(`HTTP error; ${response.status}`);
-      }
       const data = await response.json();
       setSearchResults(data);
+      return
     } catch (error) {
+      toast.error(`Fetch error: ${error.message}`);
       console.log("Fetch error: " + error.message);
+      return;
     }
   };
 
@@ -40,13 +40,13 @@ function SearchPage() {
     }).toString();
     try {
       const response = await fetch(`${baseUrl}${queryParams}`);
-      if (!response.ok) {
-        throw new Error("Search failed");
-      }
       const data = await response.json();
       setSearchResults(data);
+      return
     } catch (error) {
+      toast.error(`Search error: ${error.message}`);
       console.error("Failed to fetch search results:", error);
+      return
     }
   };
 
@@ -54,6 +54,7 @@ function SearchPage() {
 
   const goToDetailsPage = (productId) => {
     navigate(`/app/product/${productId}`);
+    return
   };
 
   return (

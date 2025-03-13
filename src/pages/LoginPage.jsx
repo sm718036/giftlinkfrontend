@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import { urlConfig } from "../config";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errMsg, setErrMsg] = useState(null);
   const navigate = useNavigate();
   const { setIsLoggedIn } = useAppContext();
   const bearerToken = sessionStorage.getItem("bearer-token");
@@ -18,10 +18,7 @@ export default function SignIn() {
   }, [navigate]);
 
   function showError(message) {
-    setErrMsg(message);
-    setTimeout(() => {
-      setErrMsg(null);
-    }, 5000);
+    toast.error(message);
   }
 
   const handleLogin = async (e) => {
@@ -39,7 +36,7 @@ export default function SignIn() {
         }),
       });
       if (!res.ok && res.status === 400) {
-        showError("Incorrect email");
+        showError("Invalid email");
         return;
       } else if (!res.ok && res.status === 401) {
         showError("Invalid password");
@@ -56,15 +53,13 @@ export default function SignIn() {
           sessionStorage.setItem("email", data.userEmail);
           setIsLoggedIn(true);
           navigate("/app");
+          toast.success("Login successful")
         }
       }
     } catch (err) {
       document.getElementById("email").value = "";
       document.getElementById("password").value = "";
-      showError(err.message);
-      setTimeout(() => {
-        showError(null);
-      }, 3000);
+      toast.error(err.message)
     }
   };
 
@@ -83,7 +78,6 @@ export default function SignIn() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setErrMsg("");
               }}
               required
             />
@@ -96,13 +90,9 @@ export default function SignIn() {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value)
-                setErrMsg(null)
               }}
               required
             />
-            {errMsg && (
-              <small className="text-red-500 rounded-lg">{errMsg}</small>
-            )}
           </div>
           <button
             className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 py-2 rounded-lg transition duration-300 cursor-pointer"

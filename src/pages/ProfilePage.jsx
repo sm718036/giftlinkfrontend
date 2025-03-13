@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
-import { urlConfig } from "../config.js"
+import { urlConfig } from "../config.js";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const [userDetails, setUserDetails] = useState({});
   const [updatedDetails, setUpdatedDetails] = useState({});
   const { setUserName } = useAppContext();
-  const [changed, setChanged] = useState("");
 
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
@@ -35,8 +35,8 @@ const ProfilePage = () => {
         setUpdatedDetails(storedUserDetails);
       }
     } catch (error) {
+      toast.error(error.message);
       console.error(error);
-      // Handle error case
     }
   };
 
@@ -63,7 +63,7 @@ const ProfilePage = () => {
       }
 
       const payload = { ...updatedDetails };
-      const response = await fetch(`${urlConfig.backendUrl}/api/auth/update`, {
+      await fetch(`${urlConfig.backendUrl}/api/auth/update`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${authtoken}`,
@@ -72,25 +72,16 @@ const ProfilePage = () => {
         },
         body: JSON.stringify(payload),
       });
-
-      if (response.ok) {
-        // Update user details in the context
-        setUserName(updatedDetails.name);
-        sessionStorage.setItem("name", updatedDetails.name);
-        setUserDetails(updatedDetails);
-        setEditMode(false);
-        // Display success message to the user
-        setChanged("Name Changed Successfully!");
-        setTimeout(() => {
-          setChanged("");
-        }, 3000);
-      } else {
-        // Handle error case
-        throw new Error("Failed to update profile");
-      }
+      // Update user details in the context
+      setUserName(updatedDetails.name);
+      sessionStorage.setItem("name", updatedDetails.name);
+      setUserDetails(updatedDetails);
+      setEditMode(false);
+      // Display success message to the user
+      toast.success("Name Changed Successfully!");
     } catch (error) {
-      console.error(error);
-      // Handle error case
+      toast.error(error.message);
+      console.log(error);
     }
   };
 
@@ -137,7 +128,6 @@ const ProfilePage = () => {
             >
               Edit Profile
             </button>
-            {changed && <p className="text-green-400 italic mt-3">{changed}</p>}
           </div>
         )}
       </div>
