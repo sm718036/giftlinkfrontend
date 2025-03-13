@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const { isLoggedIn, setIsLoggedIn, userName, setUserName } = useAppContext();
@@ -34,6 +35,7 @@ export default function Navbar() {
     sessionStorage.clear();
     setIsLoggedIn(false);
     navigate(`/app`);
+    toast.success("You have successfully logged out.")
   };
 
   return (
