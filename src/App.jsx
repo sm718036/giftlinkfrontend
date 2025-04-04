@@ -79,9 +79,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      {/* <RouterProvider router={router} />
-      <Toaster position="bottom-right" reverseOrder={false} /> */}
-      <MaintenancePage />
+      <RouterProvider router={router} />
+      <Toaster position="bottom-right" reverseOrder={false} />
+      {/* <MaintenancePage /> */}
     </>
   );
 }
