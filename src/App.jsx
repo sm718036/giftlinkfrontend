@@ -9,7 +9,7 @@ import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import { Toaster } from "react-hot-toast";
-import MaintenancePage from './pages/MaintenancePage';
+import NotFoundPage from "./pages/NotFoundPage";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +74,10 @@ const router = createBrowserRouter([
       </>
     ),
   },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ]);
 
 function App() {
@@ -81,7 +85,6 @@ function App() {
     <>
       <RouterProvider router={router} />
       <Toaster position="bottom-right" reverseOrder={false} />
-      {/* <MaintenancePage /> */}
     </>
   );
 }
