@@ -5,7 +5,7 @@ import NotFoundPageButton from "../components/NotFoundPageButton";
 const NotFoundPage = () => {
   const navigate = useNavigate();
   function navigateToHome() {
-    navigate("/app");
+    navigate("/");
   }
   function goBack() {
     window.history.back();
