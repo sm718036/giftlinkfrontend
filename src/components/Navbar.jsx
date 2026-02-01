@@ -2,24 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { Menu } from "lucide-react";
 
 export default function Navbar() {
-  const { isLoggedIn, setIsLoggedIn, userName, setUserName } = useAppContext();
+  const { user, setHasToken } = useAppContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const authTokenFromSession = sessionStorage.getItem("auth-token");
-    const nameFromSession = sessionStorage.getItem("name");
-    if (authTokenFromSession) {
-      if (isLoggedIn && nameFromSession) {
-        setUserName(nameFromSession);
-      } else {
-        sessionStorage.clear();
-        setIsLoggedIn(false);
-      }
-    }
-  }, [isLoggedIn, setIsLoggedIn, setUserName]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,10 +22,11 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    sessionStorage.clear();
-    setIsLoggedIn(false);
-    navigate(`/app`);
-    toast.success("You have successfully logged out.")
+    localStorage.clear();
+    queryClient.clear();
+    setHasToken(false);
+    toast.success("You have successfully logged out.");
+    navigate(`/`);
   };
 
   return (
@@ -45,41 +36,23 @@ export default function Navbar() {
         <Link to="/" className="text-3xl font-bold drop-shadow-lg">
           GiftLink
         </Link>
-
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white focus:outline-none cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
+          <Menu />
         </button>
 
         {/* Desktop Nav Links */}
         <ul className="hidden md:flex space-x-6 text-white font-medium">
           <li>
             <Link to="/" className="hover:text-yellow-400 transition">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/app" className="hover:text-yellow-400 transition">
               Gifts
             </Link>
           </li>
           <li>
-            <Link to="/app/search" className="hover:text-yellow-400 transition">
+            <Link to="/search" className="hover:text-yellow-400 transition">
               Search
             </Link>
           </li>
@@ -87,13 +60,13 @@ export default function Navbar() {
 
         {/* User Section (Desktop) */}
         <div className="hidden md:flex items-center space-x-4">
-          {isLoggedIn ? (
+          {user?.email ? (
             <>
               <span
                 className="cursor-pointer hover:text-yellow-400 transition"
-                onClick={() => navigate("/app/profile")}
+                onClick={() => navigate("/profile")}
               >
-                {userName}
+                My Profile
               </span>
               <button
                 onClick={handleLogout}
@@ -104,14 +77,11 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link
-                to="/app/login"
-                className="hover:text-yellow-400 transition"
-              >
+              <Link to="/login" className="hover:text-yellow-400 transition">
                 Login
               </Link>
               <Link
-                to="/app/register"
+                to="/register"
                 className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg shadow-md transition"
               >
                 Register
@@ -134,33 +104,26 @@ export default function Navbar() {
           className="block hover:text-indigo-600"
           onClick={() => setMenuOpen(false)}
         >
-          Home
-        </Link>
-        <Link
-          to="/app"
-          className="block hover:text-indigo-600"
-          onClick={() => setMenuOpen(false)}
-        >
           Gifts
         </Link>
         <Link
-          to="/app/search"
+          to="/search"
           className="block hover:text-indigo-600"
           onClick={() => setMenuOpen(false)}
         >
           Search
         </Link>
 
-        {isLoggedIn ? (
+        {user?.email ? (
           <>
             <span
               className="block hover:text-indigo-600 transition"
               onClick={() => {
-                navigate(`/app/profile`);
+                navigate(`/profile`);
                 setMenuOpen(false);
               }}
             >
-              {userName}
+              My Profile
             </span>
             <button
               onClick={() => {
@@ -175,14 +138,14 @@ export default function Navbar() {
         ) : (
           <>
             <Link
-              to="/app/login"
+              to="/login"
               className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition"
               onClick={() => setMenuOpen(false)}
             >
               Login
             </Link>
             <Link
-              to="/app/register"
+              to="/register"
               className="w-full text-center bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded transition"
               onClick={() => setMenuOpen(false)}
             >
