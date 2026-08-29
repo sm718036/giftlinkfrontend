@@ -10,6 +10,9 @@ export default class AuthService {
   static updateMyDetails(params) {
     return axiosInstance.put("/auth/update", params);
   }
+  static changePassword(params) {
+    return axiosInstance.put("/auth/change-password", params);
+  }
   static getMe() {
     return axiosInstance.get("/auth/me");
   }

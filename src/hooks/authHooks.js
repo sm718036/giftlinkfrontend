@@ -3,8 +3,10 @@ import AuthService from "../services/authService";
 import { queryKeys } from "./queryKeys";
 
 export const useLogin = () => {
+  const queryClient = useQueryClient();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (params) => AuthService.login(params),
+    onSuccess: () => queryClient.clear(),
   });
   return {
     login: mutateAsync,
@@ -47,5 +49,20 @@ export const useUpdateMyDetails = () => {
   return {
     updateMyDetails: mutateAsync,
     isUpdatingMyDetails: isPending,
+  };
+};
+
+export const useChangePassword = () => {
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (params) => AuthService.changePassword(params),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.auth.getMe,
+      }),
+  });
+  return {
+    changePassword: mutateAsync,
+    isChangingPassword: isPending,
   };
 };
