@@ -16,16 +16,16 @@ export function Pagination({ totalPages, currentPage, onPageChange }) {
         containerClassName="flex items-center gap-3"
         // Page buttons
         pageClassName=""
-        pageLinkClassName="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 rounded-full transition shadow-md"
+        pageLinkClassName="flex items-center justify-center w-10 h-10 border border-[#10261d]/15 hover:bg-[#ece4cf] rounded-full transition"
         // Active page stands out
         activeClassName=""
-        activeLinkClassName="unset-all flex items-center justify-center w-10 h-10 font-bold rounded-full shadow-lg scale-110 transition-transform"
+        activeLinkClassName="!bg-[#063f2c] !text-white font-bold"
         // Previous button
         previousClassName=""
-        previousLinkClassName="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 rounded-full transition shadow-md"
+        previousLinkClassName="flex items-center justify-center w-10 h-10 border border-[#10261d]/15 hover:bg-[#ece4cf] rounded-full transition"
         // Next button
         nextClassName=""
-        nextLinkClassName="flex items-center justify-center w-10 h-10 text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 rounded-full transition shadow-md"
+        nextLinkClassName="flex items-center justify-center w-10 h-10 border border-[#10261d]/15 hover:bg-[#ece4cf] rounded-full transition"
         // Disabled state
         disabledClassName="opacity-50 cursor-not-allowed"
         breakClassName="flex items-center justify-center w-10 h-10 text-gray-400"

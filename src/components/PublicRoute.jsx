@@ -9,11 +9,7 @@ const PublicRoute = () => {
   if (isLoadingUser) {
     return <Loader />;
   }
-  return isAuthenticated ? (
-    <Navigate to="/" replace state={{ from: location }} />
-  ) : (
-    <Outlet />
-  );
+  return isAuthenticated ? <Navigate to="/" replace state={{ from: location }} /> : <Outlet />;
 };
 
 export default PublicRoute;

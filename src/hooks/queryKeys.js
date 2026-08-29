@@ -6,5 +6,9 @@ export const queryKeys = {
     getAllGifts: (params) => ["gifts", "all", params],
     getGiftDetailsById: (giftId) => ["gift", "details", giftId],
     searchGifts: (params) => ["gifts", "all", "search", params],
+    getMyGifts: () => ["gifts", "my"],
+  },
+  wishlist: {
+    getWishlist: () => ["wishlist"],
   },
 };

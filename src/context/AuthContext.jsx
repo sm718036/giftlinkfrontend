@@ -1,13 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useGetMe } from "../hooks/authHooks";
 
 const AppContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [hasToken, setHasToken] = useState(
-    !!localStorage.getItem("auth-token")
-  );
+  const [hasToken, setHasToken] = useState(!!localStorage.getItem("auth-token"));
   const { user, isLoadingUser, isErrorInGettingUser } = useGetMe(hasToken);
+
+  useEffect(() => {
+    if (hasToken && isErrorInGettingUser) {
+      localStorage.removeItem("auth-token");
+      setHasToken(false);
+    }
+  }, [hasToken, isErrorInGettingUser]);
+
   return (
     <AppContext.Provider
       value={{

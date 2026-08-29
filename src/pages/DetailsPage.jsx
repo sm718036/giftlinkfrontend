@@ -13,11 +13,8 @@ function DetailsPage() {
   }
 
   return (
-    <div className="pt-30 max-w-4xl mx-auto p-6">
-      <button
-        className="bg-yellow-400 hover:bg-yellow-500 text-gray-900  px-4 py-2 rounded-md mb-6 transition cursor-pointer"
-        onClick={handleBackClick}
-      >
+    <div className="page-wrap page-section max-w-5xl">
+      <button className="btn-secondary mb-6" onClick={handleBackClick}>
         Back
       </button>
       {isLoadingGiftDetails ? (
@@ -26,6 +23,8 @@ function DetailsPage() {
         <div className="text-center text-red-500 mt-10">
           Error: {errorInGettingGiftDetails?.message}
         </div>
+      ) : !giftDetails?._id ? (
+        <div className="text-center text-gray-600 mt-10">Gift not found.</div>
       ) : (
         <GiftDetails giftDetails={giftDetails} />
       )}

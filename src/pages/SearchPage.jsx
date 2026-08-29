@@ -1,178 +1,159 @@
 import { useEffect, useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import toast from "react-hot-toast";
 import { useSearchGifts } from "../hooks/giftHooks";
-import SearchGiftCard from "../components/SearchGiftCard";
+import { useWishlist, useAddToWishlist, useRemoveFromWishlist } from "../hooks/wishlistHooks";
+import { useAppContext } from "../context/AuthContext";
+import GiftCard from "../components/GiftCard";
 import { Pagination } from "../components/Pagination";
 import Loader from "../components/Loader";
-
-function SearchPage() {
+export default function SearchPage() {
+  const { user } = useAppContext();
+  const logged = !!user?.email;
+  const { wishlistIds } = useWishlist(logged);
+  const { addToWishlist } = useAddToWishlist();
+  const { removeFromWishlist } = useRemoveFromWishlist();
   const [filters, setFilters] = useState({
     category: "",
     condition: "",
     ageInYears: 6,
     name: "",
   });
-
-  const [debouncedFilters, setDebouncedFilters] = useState(filters);
-
-  const [paginationParams, setPaginationParams] = useState({
-    currentPage: 1,
-    limit: 10,
+  const [debounced, setDebounced] = useState(filters);
+  const [pagination, setPagination] = useState({ currentPage: 1, limit: 10 });
+  const { foundGifts, isFindingGifts, errorInFindingGifts, paginationMeta } = useSearchGifts({
+    ...debounced,
+    ...pagination,
   });
-
-  const categories = ["Living", "Bedroom", "Bathroom", "Kitchen", "Office"];
-  const conditions = ["New", "Like New", "Older"];
-
-  const { foundGifts, isFindingGifts, paginationMeta } = useSearchGifts({
-    ...debouncedFilters,
-    ...paginationParams,
-  });
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedFilters(filters);
-    }, 1000);
-
+      setDebounced(filters);
+      setPagination((p) => ({ ...p, currentPage: 1 }));
+    }, 500);
     return () => clearTimeout(timer);
   }, [filters]);
-
+  const set = (key, value) => setFilters((p) => ({ ...p, [key]: value }));
+  const add = async (id) => {
+    try {
+      await addToWishlist(id);
+      toast.success("Added to wishlist!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const remove = async (id) => {
+    try {
+      await removeFromWishlist(id);
+      toast.success("Removed from wishlist.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
-    <div className="pt-20 sm:pt-15 container mx-auto mt-5">
-      <div className="flex justify-center">
-        <div className="w-full sm:w-3/4 bg-white shadow-lg p-6 rounded-lg bg-opacity-80 backdrop-blur-md">
-          {/* Filters Panel */}
-          <div className="mb-5 p-4 border border-blue-800 rounded-lg">
-            <h5 className="text-xl font-semibold text-center mb-4">Filters</h5>
-            <div className="space-y-4">
-              <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
-                {/* Category */}
-                <div className="w-full">
-                  <label
-                    htmlFor="categorySelect"
-                    className="text-sm font-medium"
-                  >
-                    Category
-                  </label>
-                  <select
-                    id="categorySelect"
-                    className="w-full p-2 border rounded-lg mt-2"
-                    value={filters.category}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        category: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">All</option>
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Condition */}
-                <div className="w-full">
-                  <label
-                    htmlFor="conditionSelect"
-                    className="text-sm font-medium"
-                  >
-                    Condition
-                  </label>
-                  <select
-                    id="conditionSelect"
-                    className="w-full p-2 border rounded-lg mt-2"
-                    value={filters.condition}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        condition: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">All</option>
-                    {conditions.map((condition) => (
-                      <option key={condition} value={condition}>
-                        {condition}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Age Slider */}
-                <div className="w-full">
-                  <label htmlFor="ageRange" className="text-sm font-medium">
-                    Less than {filters.ageInYears} years
-                  </label>
-                  <input
-                    type="range"
-                    className="w-full mt-2"
-                    id="ageRange"
-                    min="1"
-                    max="10"
-                    value={filters.ageInYears}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        ageInYears: e.target.value,
-                      }))
-                    }
-                  />
-                </div>
-              </div>
-
-              {/* Search Input */}
-              <div className="w-full flex flex-col md:flex-row items-center justify-center gap-4">
+    <div className="page-section">
+      <div className="page-wrap">
+        <h1 className="section-title">
+          Find something
+          <br />
+          <span className="display-serif text-[#08704c]">worth giving a new story.</span>
+        </h1>
+        <p className="section-copy">Search nearby gifts by name, room, condition, or age.</p>
+        <section className="surface my-10 p-5 md:p-7" aria-label="Gift filters">
+          <div className="grid gap-4 md:grid-cols-4">
+            <label className="form-label">
+              Category
+              <select
+                className="field mt-2"
+                value={filters.category}
+                onChange={(e) => set("category", e.target.value)}
+              >
+                <option value="">All categories</option>
+                {["Living", "Bedroom", "Bathroom", "Kitchen", "Office"].map((v) => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
+            <label className="form-label">
+              Condition
+              <select
+                className="field mt-2"
+                value={filters.condition}
+                onChange={(e) => set("condition", e.target.value)}
+              >
+                <option value="">Any condition</option>
+                {["New", "Like New", "Older"].map((v) => (
+                  <option key={v}>{v}</option>
+                ))}
+              </select>
+            </label>
+            <label className="form-label">
+              Maximum age: {filters.ageInYears} years
+              <input
+                type="range"
+                className="mt-5 w-full"
+                min="1"
+                max="10"
+                value={filters.ageInYears}
+                onChange={(e) => set("ageInYears", e.target.value)}
+              />
+            </label>
+            <label className="form-label">
+              Search by name
+              <div className="relative mt-2">
+                <Search className="absolute left-3 top-3.5 text-[#627168]" size={18} />
                 <input
-                  type="text"
-                  className="w-full p-3 border rounded-lg"
-                  placeholder="Search for items..."
+                  className="field !pl-10"
+                  placeholder="Bookshelf, lamp…"
                   value={filters.name}
-                  onChange={(e) =>
-                    setFilters((prev) => ({ ...prev, name: e.target.value }))
-                  }
+                  onChange={(e) => set("name", e.target.value)}
                 />
               </div>
-            </div>
+            </label>
           </div>
-
-          {/* Gifts List */}
-          <div className="mt-5 flex flex-col items-center justify-center">
-            <div className="mt-5 flex gap-4 flex-wrap items-center justify-center">
-              {isFindingGifts ? (
-                <Loader />
-              ) : foundGifts?.length > 0 ? (
-                foundGifts.map((gift) => (
-                  <SearchGiftCard key={gift.id} gift={gift} />
-                ))
-              ) : (
-                <div className="p-4 bg-yellow-100 text-yellow-700 rounded-lg text-center">
-                  No products found. Please revise your filters.
-                </div>
-              )}
-            </div>
-
-            {/* Pagination */}
-            {foundGifts?.length > 0 ? (
-              <Pagination
-                totalPages={paginationMeta?.totalPages}
-                currentPage={paginationParams.currentPage}
-                onPageChange={(nextPage) =>
-                  setPaginationParams((prev) => ({
-                    ...prev,
-                    currentPage: nextPage,
-                  }))
-                }
-              />
-            ) : (
-              ""
-            )}
+        </section>
+        {isFindingGifts ? (
+          <Loader />
+        ) : errorInFindingGifts ? (
+          <div className="surface p-8 text-center text-red-800">
+            Failed to load gifts. Please try again.
           </div>
-        </div>
+        ) : foundGifts?.length ? (
+          <>
+            <div className="mb-5 text-sm text-[#627168]">
+              Showing {foundGifts.length} available {foundGifts.length === 1 ? "gift" : "gifts"}
+            </div>
+            <div className="gift-grid">
+              {foundGifts.map((g) => (
+                <GiftCard
+                  key={g._id ?? g.id}
+                  giftData={{
+                    ...g,
+                    date_added: g.createdAt
+                      ? Math.floor(new Date(g.createdAt).getTime() / 1000)
+                      : g.date_added,
+                  }}
+                  showWishlistButton={logged}
+                  isInWishlist={wishlistIds.includes(g._id)}
+                  onAddToWishlist={add}
+                  onRemoveFromWishlist={remove}
+                />
+              ))}
+            </div>
+            <Pagination
+              totalPages={paginationMeta?.totalPages}
+              currentPage={pagination.currentPage}
+              onPageChange={(currentPage) => setPagination((p) => ({ ...p, currentPage }))}
+            />
+          </>
+        ) : (
+          <div className="surface p-12 text-center">
+            <h2 className="font-serif text-2xl">No matches just yet.</h2>
+            <p className="mt-2 text-[#627168]">
+              Try broadening your filters or searching another name.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
-export default SearchPage;

@@ -6,6 +6,8 @@ import RegisterPage from "./pages/RegisterPage";
 import DetailsPage from "./pages/DetailsPage";
 import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
+import GiveawaysPage from "./pages/GiveawaysPage";
+import WishlistPage from "./pages/WishlistPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <ProfilePage />,
+          },
+          {
+            path: "/giveaways",
+            element: <GiveawaysPage />,
+          },
+          {
+            path: "/wishlist",
+            element: <WishlistPage />,
           },
           {
             path: "/gift/:giftId",

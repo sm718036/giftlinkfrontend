@@ -20,7 +20,7 @@ export default function SignIn() {
   const from = location.state?.from?.pathname || "/";
 
   async function onSubmit(data) {
-    if ((isLoggingIn, isSubmitting)) return;
+    if (isLoggingIn || isSubmitting) return;
     try {
       const response = await login(data);
       localStorage.setItem("auth-token", response.authtoken);
@@ -33,52 +33,58 @@ export default function SignIn() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-700 to-blue-500 p-5">
-      <div className="bg-white shadow-lg rounded-xl p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-          Log In to GiftLink
+    <div className="auth-layout">
+      <aside className="auth-story">
+        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#dce92b]">Welcome back</p>
+        <h2 className="mt-4 max-w-lg text-5xl font-semibold tracking-[-.06em]">
+          Your next good deed is <span className="display-serif text-[#dce92b]">waiting.</span>
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <AppInput
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="johndoe@email.com"
-            register={register}
-            error={errors.email}
-            autoFocus={true}
-            rules={{
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Please enter a valid email address",
-              },
-            }}
-          />
-          <AppInput
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            register={register}
-            error={errors.password}
-            rules={{
-              required: "Password is required",
-            }}
-          />
-          <button
-            className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 py-2 rounded-lg transition duration-300 cursor-pointer"
-            type="submit"
-            disabled={isLoggingIn || isSubmitting}
-          >
-            {isLoggingIn ? "Logging In..." : "Login"}
-          </button>
-        </form>
-        <AuthPageLink
-          label="New Here?"
-          linkText="Register Now"
-          path="/register"
-        />
+        <p className="mt-5 max-w-md leading-7 text-[#b9c8bf]">
+          Sign in to manage your gifts, save useful finds, and keep sharing within your community.
+        </p>
+      </aside>
+      <div className="auth-panel">
+        <div className="auth-card">
+          <p className="section-copy !mt-3">Good to see you again.</p>
+          <h1 className="mt-3 mb-8">Log in to GiftLink</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <AppInput
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="johndoe@email.com"
+              register={register}
+              error={errors.email}
+              autoFocus={true}
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Please enter a valid email address",
+                },
+              }}
+            />
+            <AppInput
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              register={register}
+              error={errors.password}
+              rules={{
+                required: "Password is required",
+              }}
+            />
+            <button
+              className="btn-primary mt-2 w-full"
+              type="submit"
+              disabled={isLoggingIn || isSubmitting}
+            >
+              {isLoggingIn ? "Logging In..." : "Login"}
+            </button>
+          </form>
+          <AuthPageLink label="New Here?" linkText="Register Now" path="/register" />
+        </div>
       </div>
     </div>
   );

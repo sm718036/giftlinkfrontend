@@ -1,159 +1,126 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Menu } from "lucide-react";
+import { Gift, Menu, X } from "lucide-react";
 
+const navClass = ({ isActive }) =>
+  `text-sm transition ${isActive ? "font-bold text-[#063f2c]" : "text-[#51645b] hover:text-[#063f2c]"}`;
 export default function Navbar() {
   const { user, setHasToken } = useAppContext();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMenuOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
+  const close = () => setMenuOpen(false);
   const handleLogout = () => {
-    localStorage.clear();
+    localStorage.removeItem("auth-token");
     queryClient.clear();
     setHasToken(false);
+    close();
     toast.success("You have successfully logged out.");
-    navigate(`/`);
+    navigate("/");
   };
-
   return (
-    <nav className="bg-gradient-to-r from-purple-600 to-blue-500 shadow-lg py-4 px-6 md:px-12 fixed w-full top-0 z-50 text-white">
-      <div className="flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-3xl font-bold drop-shadow-lg">
+    <header className="sticky top-0 z-50 border-b border-[#10261d]/15 bg-[#f6f0df]/95 backdrop-blur-lg">
+      <nav
+        className="page-wrap flex min-h-[76px] items-center justify-between gap-6"
+        aria-label="Primary navigation"
+      >
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-xl font-semibold tracking-[-.04em]"
+          onClick={close}
+        >
+          <Gift size={23} />
           GiftLink
         </Link>
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-white focus:outline-none cursor-pointer"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <Menu />
-        </button>
-
-        {/* Desktop Nav Links */}
-        <ul className="hidden md:flex space-x-6 text-white font-medium">
-          <li>
-            <Link to="/" className="hover:text-yellow-400 transition">
-              Gifts
-            </Link>
-          </li>
-          <li>
-            <Link to="/search" className="hover:text-yellow-400 transition">
-              Search
-            </Link>
-          </li>
-        </ul>
-
-        {/* User Section (Desktop) */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden items-center gap-7 md:flex">
+          <NavLink to="/" end className={navClass}>
+            Gifts
+          </NavLink>
+          <NavLink to="/search" className={navClass}>
+            Discover
+          </NavLink>
+          {user?.email && (
+            <>
+              <NavLink to="/giveaways" className={navClass}>
+                My giveaways
+              </NavLink>
+              <NavLink to="/wishlist" className={navClass}>
+                Wishlist
+              </NavLink>
+            </>
+          )}
+        </div>
+        <div className="hidden items-center gap-3 md:flex">
           {user?.email ? (
             <>
-              <span
-                className="cursor-pointer hover:text-yellow-400 transition"
-                onClick={() => navigate("/profile")}
-              >
-                My Profile
-              </span>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition cursor-pointer"
-              >
-                Logout
+              <Link to="/profile" className="btn-secondary !min-h-[42px] !py-2">
+                Profile
+              </Link>
+              <button onClick={handleLogout} className="btn-primary !min-h-[42px] !py-2">
+                Log out
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-yellow-400 transition">
-                Login
+              <Link to="/login" className="text-sm font-bold">
+                Log in
               </Link>
-              <Link
-                to="/register"
-                className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg shadow-md transition"
-              >
-                Register
+              <Link to="/register" className="btn-primary !min-h-[42px] !py-2">
+                Join GiftLink
               </Link>
             </>
           )}
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden flex flex-col items-center gap-4 mt-2 bg-white text-gray-800 shadow-lg p-4 rounded-md transition-all duration-300 ease-in-out ${
-          menuOpen
-            ? "opacity-100 max-h-screen"
-            : "opacity-0 max-h-0 overflow-hidden"
-        }`}
-      >
-        <Link
-          to="/"
-          className="block hover:text-indigo-600"
-          onClick={() => setMenuOpen(false)}
+        <button
+          type="button"
+          className="icon-button nav-toggle"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
         >
-          Gifts
-        </Link>
-        <Link
-          to="/search"
-          className="block hover:text-indigo-600"
-          onClick={() => setMenuOpen(false)}
-        >
-          Search
-        </Link>
-
-        {user?.email ? (
-          <>
-            <span
-              className="block hover:text-indigo-600 transition"
-              onClick={() => {
-                navigate(`/profile`);
-                setMenuOpen(false);
-              }}
-            >
-              My Profile
-            </span>
-            <button
-              onClick={() => {
-                handleLogout();
-                setMenuOpen(false);
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded transition"
-              onClick={() => setMenuOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="w-full text-center bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded transition"
-              onClick={() => setMenuOpen(false)}
-            >
-              Register
-            </Link>
-          </>
-        )}
-      </div>
-    </nav>
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+      </nav>
+      {menuOpen && (
+        <div className="border-t border-[#10261d]/15 bg-[#fffaf0] px-4 py-5 md:hidden">
+          <div className="page-wrap flex flex-col gap-4">
+            <NavLink to="/" onClick={close} className={navClass}>
+              Gifts
+            </NavLink>
+            <NavLink to="/search" onClick={close} className={navClass}>
+              Discover
+            </NavLink>
+            {user?.email ? (
+              <>
+                <NavLink to="/giveaways" onClick={close} className={navClass}>
+                  My giveaways
+                </NavLink>
+                <NavLink to="/wishlist" onClick={close} className={navClass}>
+                  Wishlist
+                </NavLink>
+                <NavLink to="/profile" onClick={close} className={navClass}>
+                  Profile
+                </NavLink>
+                <button onClick={handleLogout} className="btn-primary mt-2">
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/login" onClick={close} className={navClass}>
+                  Log in
+                </NavLink>
+                <Link to="/register" onClick={close} className="btn-primary mt-2">
+                  Join GiftLink
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </header>
   );
 }

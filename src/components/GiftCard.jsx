@@ -1,38 +1,67 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import { formatDate, getConditionClass } from "../utils/helpers";
+import { ArrowUpRight, Heart } from "lucide-react";
+import { formatDate } from "../utils/helpers";
 
-const GiftCard = ({ giftData }) => {
+export default function GiftCard({
+  giftData,
+  showWishlistButton = false,
+  isInWishlist = false,
+  onAddToWishlist,
+  onRemoveFromWishlist,
+}) {
   const navigate = useNavigate();
+  const isSample = Boolean(giftData?.isSample);
+  const toggle = (event) => {
+    event.stopPropagation();
+    isInWishlist ? onRemoveFromWishlist?.(giftData._id) : onAddToWishlist?.(giftData._id);
+  };
+
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer">
+    <article className="gift-card">
+      {isSample ? (
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-[#dce92b] px-3 py-1 text-xs font-bold text-[#10261d]">
+          Sample gift
+        </span>
+      ) : (
+        giftData?.isTaken && (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-[#10261d] px-3 py-1 text-xs font-bold text-white">
+            Already taken
+          </span>
+        )
+      )}
+      {showWishlistButton && !isSample && (
+        <button
+          type="button"
+          onClick={toggle}
+          className="icon-button absolute right-3 top-3 z-10"
+          aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <Heart size={19} className={isInWishlist ? "fill-[#ff7a36] text-[#ff7a36]" : ""} />
+        </button>
+      )}
       <img
-        src={giftData.image || "/placeholder.png"}
+        src={giftData.image || "/images/coffee-table.jpeg"}
         alt={giftData.name}
-        className="w-full h-48 object-cover"
+        className="gift-card-image"
         loading="lazy"
       />
-      <div className="p-4 flex flex-col items-center">
-        <h2 className="text-xl font-semibold text-gray-800">{giftData.name}</h2>
-        <p
-          className={`w-fit px-3 py-1 rounded-full text-sm font-medium text-white ${getConditionClass(
-            giftData.condition
-          )}`}
-        >
-          {giftData.condition}
-        </p>
-        <p className="text-sm text-gray-600 mt-1">
-          {formatDate(giftData.date_added)}
-        </p>
-        <button
-          onClick={() => navigate(`/gift/${giftData._id}`)}
-          className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-full shadow-md transition transform hover:scale-105 cursor-pointer"
-        >
-          View Details
-        </button>
+      <div className="gift-card-body">
+        <div className="gift-card-meta">
+          <span className="status-pill">{giftData.condition || "Pre-loved"}</span>
+          <span>{isSample ? giftData.category : formatDate(giftData.date_added)}</span>
+        </div>
+        <h2 className="gift-card-title">{giftData.name}</h2>
+        {isSample ? (
+          <p className="mt-5 text-sm font-bold text-[#627168]">Example listing</p>
+        ) : (
+          <button
+            onClick={() => navigate(`/gift/${giftData._id}`)}
+            className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#063f2c]"
+          >
+            View details <ArrowUpRight size={16} />
+          </button>
+        )}
       </div>
-    </div>
+    </article>
   );
-};
-
-export default GiftCard;
+}

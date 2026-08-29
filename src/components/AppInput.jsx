@@ -9,35 +9,32 @@ const AppInput = ({
   register,
   error,
   rules,
-  variant = "primary",
   className = "",
   ...props
 }) => {
-  const baseStyles =
-    variant === "primary"
-      ? `w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none ${
-          error ? "border-red-500" : "focus:border-purple-500"
-        }`
-      : `w-full p-3 rounded-md bg-gray-800 text-white border border-gray-600`;
-
-  const labelStyles =
-    variant === "primary"
-      ? "block text-gray-700"
-      : "block text-white text-left mb-1";
+  const baseStyles = `field ${error ? "!border-red-600" : ""}`;
+  const labelStyles = "form-label text-left";
 
   return (
-    <div className="mb-4">
-      <label className={labelStyles}>{label}</label>
+    <div className="mb-5">
+      <label className={labelStyles} htmlFor={name}>
+        {label}
+      </label>
       <input
         type={type}
         name={name}
+        id={name}
         placeholder={placeholder}
         autoFocus={autoFocus}
         className={`${baseStyles} ${className}`}
         {...register(name, rules)}
         {...props}
       />
-      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+      {error && (
+        <p className="mt-1 text-sm text-red-700" role="alert">
+          {error.message}
+        </p>
+      )}
     </div>
   );
 };
