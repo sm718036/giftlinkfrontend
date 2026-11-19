@@ -76,10 +76,10 @@ export default function MainPage() {
               <h2 className="section-title">
                 Good finds,
                 <br />
-                <span className="display-serif text-[#08704c]">ready for a new home.</span>
+                <span className="display-serif text-[#047669]">ready for a new home.</span>
               </h2>
             </div>
-            <Link to="/search" className="btn-secondary">
+            <Link to="/search" className="btn-secondary w-fit">
               Browse all <ArrowRight size={17} />
             </Link>
           </div>
@@ -117,7 +117,7 @@ export default function MainPage() {
           ) : (
             <div className="surface p-10 text-center">
               <h3 className="font-serif text-2xl">The shelf is waiting.</h3>
-              <p className="mt-2 text-[#627168]">Be the first to share something useful.</p>
+              <p className="mt-2 text-[#61746d]">Be the first to share something useful.</p>
             </div>
           )}
         </div>
@@ -125,13 +125,13 @@ export default function MainPage() {
       <section className="dark-band page-section border-b border-white/15">
         <div className="page-wrap grid gap-8 md:grid-cols-2 lg:grid-cols-[1.15fr_1fr_1fr_1fr] lg:gap-10">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[.14em] text-[#dce92b]">
+            <p className="text-xs font-bold uppercase tracking-[.14em] text-[#f9b26a]">
               How it works
             </p>
             <h2 className="mt-3 text-4xl font-semibold tracking-[-.05em]">
               Generosity,
               <br />
-              <span className="display-serif text-[#dce92b]">made simple.</span>
+              <span className="display-serif text-[#f9b26a]">made simple.</span>
             </h2>
           </div>
           {[
@@ -140,7 +140,7 @@ export default function MainPage() {
             ["03", "Pass it on", "Hand over the gift and keep good things moving."],
           ].map(([n, t, d]) => (
             <div key={n} className="border-t border-white/20 pt-5">
-              <span className="text-xs text-[#91a59a]">{n}</span>
+              <span className="text-xs text-[#c3d4cb]">{n}</span>
               <h3 className="mt-8 font-serif text-2xl">{t}</h3>
               <p className="mt-2 text-sm leading-6 text-[#b9c8bf]">{d}</p>
             </div>

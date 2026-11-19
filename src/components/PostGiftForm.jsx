@@ -93,7 +93,7 @@ const PostGiftForm = ({ onSuccess }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div className="pb-2">
-        <p className="mt-1 text-sm leading-6 text-[#627168]">
+        <p className="mt-1 text-sm leading-6 text-[#61746d]">
           Add clear details so others know exactly what you&apos;re offering.
         </p>
       </div>
@@ -106,11 +106,11 @@ const PostGiftForm = ({ onSuccess }) => {
           accept="image/*"
           onChange={handleImageChange}
           disabled={isCompressing}
-          className="field cursor-pointer border-dashed bg-[#f6f0df] file:mr-4 file:rounded-full file:border-0 file:bg-[#063f2c] file:px-4 file:py-2 file:text-sm file:font-bold file:text-white disabled:opacity-60"
+          className="field cursor-pointer border-dashed bg-[#fcf8f5] file:mr-4 file:rounded-full file:border-0 file:bg-[#035954] file:px-4 file:py-2 file:text-sm file:font-bold file:text-white disabled:opacity-60"
         />
         {isCompressing && <p className="mt-1 text-sm text-gray-500">Compressing image...</p>}
         {imagePreview && !isCompressing && (
-          <div className="mt-3 overflow-hidden rounded-2xl border border-[#10261d]/15 bg-[#f6f0df] p-2">
+          <div className="mt-3 overflow-hidden rounded-2xl border border-[#102a24]/15 bg-[#fcf8f5] p-2">
             <img
               src={imagePreview}
               alt="Preview"
@@ -258,7 +258,7 @@ const PostGiftForm = ({ onSuccess }) => {
         </div>
       </div>
 
-      <div className="sticky bottom-0 -mx-5 -mb-5 border-t border-[#10261d]/10 bg-[#fffaf0]/95 px-5 pb-1 pt-5 backdrop-blur sm:-mx-7 sm:-mb-7 sm:px-7 sm:pb-2">
+      <div className="sticky bottom-0 -mx-5 -mb-5 border-t border-[#102a24]/10 bg-[#fffdfa]/95 px-5 pb-1 pt-5 backdrop-blur sm:-mx-7 sm:-mb-7 sm:px-7 sm:pb-2">
         <button
           type="submit"
           disabled={isCreatingGift || isCompressing}

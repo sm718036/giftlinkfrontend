@@ -114,20 +114,20 @@ const ProfilePage = () => {
               error={errors.email}
               rules={{}}
               disabled={true}
-              className="disabled:!text-gray-500"
+              className="disabled:!text-[#61746d]"
             />
 
             <button
               type="submit"
               disabled={!isChanged || isUpdatingMyDetails || isSubmitting}
               className={`w-full py-3 rounded-full transition-all shadow-md cursor-pointer
-                ${isChanged ? "btn-primary" : "bg-[#d7d3c6] text-[#777] cursor-not-allowed"}`}
+                ${isChanged ? "btn-primary" : "bg-[#e9e2da] text-[#4d5c55] cursor-not-allowed"}`}
             >
               {isUpdatingMyDetails ? "Saving Changes..." : "Save Changes"}
             </button>
           </form>
 
-          <hr className="my-8 border-[#10261d]/15" />
+          <hr className="my-8 border-[#102a24]/15" />
 
           <h2 className="mb-4 font-serif text-3xl">Change Password</h2>
           <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="mt-4 space-y-4">

@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { Gift, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navClass = ({ isActive }) =>
-  `text-sm transition ${isActive ? "font-bold text-[#063f2c]" : "text-[#51645b] hover:text-[#063f2c]"}`;
+  `text-sm transition ${isActive ? "font-bold text-[#035954]" : "text-[#52665f] hover:text-[#035954]"}`;
 export default function Navbar() {
   const { user, setHasToken } = useAppContext();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
   const close = () => setMenuOpen(false);
@@ -21,19 +22,31 @@ export default function Navbar() {
     toast.success("You have successfully logged out.");
     navigate("/");
   };
+
+  if (["/login", "/register"].includes(pathname)) return null;
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[#10261d]/15 bg-[#f6f0df]/95 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 border-b border-[#102a24]/15 bg-[#fcf8f5]/95 backdrop-blur-lg">
       <nav
         className="page-wrap flex min-h-[76px] items-center justify-between gap-6"
         aria-label="Primary navigation"
       >
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-xl font-semibold tracking-[-.04em]"
+          className="inline-flex items-center gap-2.5 text-xl font-semibold tracking-[-.04em]"
           onClick={close}
+          aria-label="GiftLink home"
         >
-          <Gift size={23} />
-          GiftLink
+          <img
+            src="/static/logo-mark.png"
+            alt=""
+            width="44"
+            height="38"
+            className="h-10 w-auto shrink-0 rounded-md"
+          />
+          <span className="text-[#035954]">
+            Gift<span className="text-[#c9610a]">Link</span>
+          </span>
         </Link>
         <div className="hidden items-center gap-7 md:flex">
           <NavLink to="/" end className={navClass}>
@@ -85,7 +98,7 @@ export default function Navbar() {
         </button>
       </nav>
       {menuOpen && (
-        <div className="border-t border-[#10261d]/15 bg-[#fffaf0] px-4 py-5 md:hidden">
+        <div className="border-t border-[#102a24]/15 bg-[#fffdfa] px-4 py-5 md:hidden">
           <div className="page-wrap flex flex-col gap-4">
             <NavLink to="/" onClick={close} className={navClass}>
               Gifts

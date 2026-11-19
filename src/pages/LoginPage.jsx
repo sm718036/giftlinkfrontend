@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import AuthPageLink from "../components/AuthPageLink";
 import { useLogin } from "../hooks/authHooks";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AuthContext";
 import { useForm } from "react-hook-form";
 import AppInput from "../components/AppInput";
@@ -34,19 +34,18 @@ export default function SignIn() {
 
   return (
     <div className="auth-layout">
-      <aside className="auth-story">
-        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#dce92b]">Welcome back</p>
-        <h2 className="mt-4 max-w-lg text-5xl font-semibold tracking-[-.06em]">
-          Your next good deed is <span className="display-serif text-[#dce92b]">waiting.</span>
-        </h2>
-        <p className="mt-5 max-w-md leading-7 text-[#b9c8bf]">
-          Sign in to manage your gifts, save useful finds, and keep sharing within your community.
-        </p>
-      </aside>
       <div className="auth-panel">
         <div className="auth-card">
-          <p className="section-copy !mt-3">Good to see you again.</p>
-          <h1 className="mt-3 mb-8">Log in to GiftLink</h1>
+          <div className="mb-6 flex justify-center">
+            <Link to="/" className="auth-brand" aria-label="GiftLink home">
+              <img src="/static/logo-mark.png" alt="" width="66" height="58" />
+              <span>
+                Gift<em>Link</em>
+              </span>
+            </Link>
+          </div>
+          <p className="section-kicker text-center">Welcome back</p>
+          <h1 className="mt-3 mb-8 text-center">Log in to GiftLink</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
             <AppInput
               label="Email"

@@ -1,7 +1,8 @@
 import React from "react";
 
-const darkButton = "bg-slate-800 text-white hover:bg-slate-700";
-const lightButton = "bg-white text-slate-800 hover:bg-slate-50 border-2 border-slate-300";
+const darkButton = "bg-[#04413b] text-[#fffdfa] hover:bg-[#035954]";
+const lightButton =
+  "bg-[#fffdfa] text-[#102a24] hover:bg-[#f2e9e2] border-2 border-[#102a24]/20";
 
 const NotFoundPageButton = ({ onClick, variant = "light", label }) => {
   const buttonVariant = variant === "light" ? lightButton : darkButton;

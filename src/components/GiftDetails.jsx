@@ -72,14 +72,14 @@ const GiftDetails = ({ giftDetails }) => {
       <div className="surface overflow-hidden">
         <div className="dark-band relative p-7 text-center">
           {isTaken && (
-            <span className="absolute right-3 top-3 rounded-full bg-[#dce92b] px-3 py-1 text-sm font-semibold text-[#10261d]">
+            <span className="absolute right-3 top-3 rounded-full bg-[#f08a1a] px-3 py-1 text-sm font-semibold text-[#102a24]">
               Taken
             </span>
           )}
           <h2 className="font-serif text-4xl">{giftDetails?.name}</h2>
         </div>
         <div className="p-5 md:p-8">
-          <div className="w-full max-w-3xl mx-auto mb-6">
+          <div className="w-full mb-6">
             {giftDetails?.image ? (
               <img
                 src={giftDetails?.image}
@@ -87,14 +87,14 @@ const GiftDetails = ({ giftDetails }) => {
                 className="max-h-[580px] w-full rounded-2xl object-cover"
               />
             ) : (
-              <div className="text-center text-gray-500 font-semibold py-12 bg-gray-100 rounded-lg">
+              <div className="text-center text-[#52665f] font-semibold py-12 bg-[#f2e9e2] rounded-2xl">
                 No Image Available
               </div>
             )}
           </div>
           <div className="flex flex-wrap gap-3 mb-4">
             {isSample && (
-              <div className="w-full rounded-xl border border-[#d3df20] bg-[#eef49b] p-4 text-sm font-medium text-[#10261d]">
+              <div className="w-full rounded-xl border border-[#c05f06] bg-[#fde3cd] p-4 text-sm font-medium text-[#102a24]">
                 This is a sample gift for demonstration only. It cannot be claimed or saved.
               </div>
             )}
@@ -144,7 +144,7 @@ const GiftDetails = ({ giftDetails }) => {
               </>
             )}
           </div>
-          <div className="grid gap-4 border-t border-[#10261d]/15 pt-6 text-base leading-7 md:grid-cols-2">
+          <div className="grid gap-4 border-t border-[#102a24]/15 pt-6 text-base leading-7 md:grid-cols-2">
             <p>
               <strong>Category:</strong> {giftDetails?.category}
             </p>
@@ -171,14 +171,14 @@ const GiftDetails = ({ giftDetails }) => {
                 {giftDetails.contactInfo.includes("@") ? (
                   <a
                     href={`mailto:${giftDetails.contactInfo.trim()}`}
-                    className="font-bold text-[#08704c] hover:underline"
+                    className="font-bold text-[#047669] hover:underline"
                   >
                     {giftDetails.contactInfo}
                   </a>
                 ) : /[\d]/.test(giftDetails.contactInfo) ? (
                   <a
                     href={`tel:${giftDetails.contactInfo.replace(/\s/g, "")}`}
-                    className="font-bold text-[#08704c] hover:underline"
+                    className="font-bold text-[#047669] hover:underline"
                   >
                     {giftDetails.contactInfo}
                   </a>

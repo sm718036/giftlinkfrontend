@@ -24,7 +24,7 @@ function DetailsPage() {
           Error: {errorInGettingGiftDetails?.message}
         </div>
       ) : !giftDetails?._id ? (
-        <div className="text-center text-gray-600 mt-10">Gift not found.</div>
+        <div className="text-center text-[#52665f] mt-10">Gift not found.</div>
       ) : (
         <GiftDetails giftDetails={giftDetails} />
       )}

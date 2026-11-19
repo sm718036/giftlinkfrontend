@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Gift, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Footer() {
   const { pathname } = useLocation();
@@ -7,11 +7,24 @@ export default function Footer() {
   if (["/login", "/register"].includes(pathname)) return null;
 
   return (
-    <footer className="bg-[#02271c] py-14 text-[#fffaf0]">
+    <footer className="bg-[#063f39] py-14 text-[#fffdfa]">
       <div className="page-wrap grid gap-10 md:grid-cols-[1.4fr_.6fr_.6fr] md:items-start">
         <div>
-          <Link to="/" className="inline-flex items-center gap-2 text-2xl font-semibold">
-            <Gift size={24} /> GiftLink
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2.5 text-2xl font-semibold"
+            aria-label="GiftLink home"
+          >
+            <img
+              src="/static/logo-mark.png"
+              alt=""
+              width="48"
+              height="42"
+              className="h-11 w-auto shrink-0 rounded-lg bg-[#fcf8f5] p-1"
+            />
+            <span>
+              Gift<span className="text-[#f9b26a]">Link</span>
+            </span>
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-[#b9c8bf]">
             Good things deserve a second story. Share useful items with people nearby and keep
@@ -19,7 +32,7 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#dce92b]">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#f9b26a]">
             Explore
           </p>
           <div className="flex flex-col gap-3 text-sm text-[#dbe4de]">
@@ -29,7 +42,7 @@ export default function Footer() {
           </div>
         </div>
         <div>
-          <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#dce92b]">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-[#f9b26a]">
             Community
           </p>
           <Link to="/register" className="inline-flex items-center gap-1 text-sm text-[#dbe4de]">

@@ -19,12 +19,12 @@ export default function GiftCard({
   return (
     <article className="gift-card">
       {isSample ? (
-        <span className="absolute left-3 top-3 z-10 rounded-full bg-[#dce92b] px-3 py-1 text-xs font-bold text-[#10261d]">
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-[#f08a1a] px-3 py-1 text-xs font-bold text-[#102a24]">
           Sample gift
         </span>
       ) : (
         giftData?.isTaken && (
-          <span className="absolute left-3 top-3 z-10 rounded-full bg-[#10261d] px-3 py-1 text-xs font-bold text-white">
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-[#102a24] px-3 py-1 text-xs font-bold text-white">
             Already taken
           </span>
         )
@@ -36,7 +36,7 @@ export default function GiftCard({
           className="icon-button absolute right-3 top-3 z-10"
           aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart size={19} className={isInWishlist ? "fill-[#ff7a36] text-[#ff7a36]" : ""} />
+          <Heart size={19} className={isInWishlist ? "fill-[#c9610a] text-[#c9610a]" : ""} />
         </button>
       )}
       <img
@@ -52,11 +52,11 @@ export default function GiftCard({
         </div>
         <h2 className="gift-card-title">{giftData.name}</h2>
         {isSample ? (
-          <p className="mt-5 text-sm font-bold text-[#627168]">Example listing</p>
+          <p className="mt-5 text-sm font-bold text-[#61746d]">Example listing</p>
         ) : (
           <button
             onClick={() => navigate(`/gift/${giftData._id}`)}
-            className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#063f2c]"
+            className="mt-5 inline-flex items-center gap-1 text-sm font-bold text-[#035954]"
           >
             View details <ArrowUpRight size={16} />
           </button>

@@ -23,7 +23,7 @@ export default function WishlistPage() {
     <div className="page-section">
       <div className="page-wrap">
         <h1 className="section-title">
-          My <span className="display-serif text-[#08704c]">wishlist.</span>
+          My <span className="display-serif text-[#047669]">wishlist.</span>
         </h1>
         <p className="section-copy">A thoughtful shortlist of items you may be able to use.</p>
         <div className="mt-10">
@@ -52,7 +52,7 @@ export default function WishlistPage() {
           ) : (
             <div className="surface p-12 text-center">
               <h2 className="font-serif text-2xl">Your wishlist is wide open.</h2>
-              <p className="mt-2 text-[#627168]">Save gifts you love and find them here later.</p>
+              <p className="mt-2 text-[#61746d]">Save gifts you love and find them here later.</p>
               <Link to="/search" className="btn-primary mt-6">
                 <Search size={17} /> Discover gifts
               </Link>

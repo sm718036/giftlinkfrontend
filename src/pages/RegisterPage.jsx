@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useRegister } from "../hooks/authHooks";
 import AuthPageLink from "../components/AuthPageLink";
@@ -27,21 +27,18 @@ function RegisterPage() {
 
   return (
     <div className="auth-layout">
-      <aside className="auth-story">
-        <p className="text-xs font-bold uppercase tracking-[.16em] text-[#dce92b]">
-          Join the community
-        </p>
-        <h2 className="mt-4 max-w-lg text-5xl font-semibold tracking-[-.06em]">
-          Useful things belong{" "}
-          <span className="display-serif text-[#dce92b]">in useful hands.</span>
-        </h2>
-        <p className="mt-5 max-w-md leading-7 text-[#b9c8bf]">
-          Create your free account and help great items find their next home.
-        </p>
-      </aside>
       <div className="auth-panel">
         <div className="auth-card">
-          <h1 className="mt-3 mb-8">Create an account</h1>
+          <div className="mb-6 flex justify-center">
+            <Link to="/" className="auth-brand" aria-label="GiftLink home">
+              <img src="/static/logo-mark.png" alt="" width="66" height="58" />
+              <span>
+                Gift<em>Link</em>
+              </span>
+            </Link>
+          </div>
+          <p className="section-kicker text-center">Join the community</p>
+          <h1 className="mt-3 mb-8 text-center">Create an account</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
             <AppInput
               label="First Name"

@@ -18,7 +18,7 @@ export default function GiveawaysPage() {
         <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <div>
             <h1 className="section-title">
-              My <span className="display-serif text-[#08704c]">giveaways.</span>
+              My <span className="display-serif text-[#047669]">giveaways.</span>
             </h1>
             <p className="section-copy">Manage the gifts you have shared with the community.</p>
           </div>
@@ -41,7 +41,7 @@ export default function GiveawaysPage() {
         ) : (
           <div className="surface p-12 text-center">
             <h2 className="font-serif text-2xl">Nothing shared yet.</h2>
-            <p className="mt-2 text-[#627168]">
+            <p className="mt-2 text-[#61746d]">
               Your unused item could be exactly what someone needs.
             </p>
             <button onClick={() => setOpen(true)} className="btn-primary mt-6">

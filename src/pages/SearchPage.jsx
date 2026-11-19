@@ -55,7 +55,7 @@ export default function SearchPage() {
         <h1 className="section-title">
           Find something
           <br />
-          <span className="display-serif text-[#08704c]">worth giving a new story.</span>
+          <span className="display-serif text-[#047669]">worth giving a new story.</span>
         </h1>
         <p className="section-copy">Search nearby gifts by name, room, condition, or age.</p>
         <section className="surface my-10 p-5 md:p-7" aria-label="Gift filters">
@@ -88,19 +88,21 @@ export default function SearchPage() {
             </label>
             <label className="form-label">
               Maximum age: {filters.ageInYears} years
-              <input
-                type="range"
-                className="mt-5 w-full"
-                min="1"
-                max="10"
-                value={filters.ageInYears}
-                onChange={(e) => set("ageInYears", e.target.value)}
-              />
+              <div className="mt-2 flex h-12 items-center">
+                <input
+                  type="range"
+                  className="w-full"
+                  min="1"
+                  max="10"
+                  value={filters.ageInYears}
+                  onChange={(e) => set("ageInYears", e.target.value)}
+                />
+              </div>
             </label>
             <label className="form-label">
               Search by name
               <div className="relative mt-2">
-                <Search className="absolute left-3 top-3.5 text-[#627168]" size={18} />
+                <Search className="absolute left-3 top-3.5 text-[#61746d]" size={18} />
                 <input
                   className="field !pl-10"
                   placeholder="Bookshelf, lamp…"
@@ -119,7 +121,7 @@ export default function SearchPage() {
           </div>
         ) : foundGifts?.length ? (
           <>
-            <div className="mb-5 text-sm text-[#627168]">
+            <div className="mb-5 text-sm text-[#61746d]">
               Showing {foundGifts.length} available {foundGifts.length === 1 ? "gift" : "gifts"}
             </div>
             <div className="gift-grid">
@@ -148,7 +150,7 @@ export default function SearchPage() {
         ) : (
           <div className="surface p-12 text-center">
             <h2 className="font-serif text-2xl">No matches just yet.</h2>
-            <p className="mt-2 text-[#627168]">
+            <p className="mt-2 text-[#61746d]">
               Try broadening your filters or searching another name.
             </p>
           </div>
