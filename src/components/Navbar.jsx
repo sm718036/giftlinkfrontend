@@ -98,7 +98,7 @@ export default function Navbar() {
         </button>
       </nav>
       {menuOpen && (
-        <div className="border-t border-[#102a24]/15 bg-[#fffdfa] px-4 py-5 md:hidden">
+        <div className="absolute inset-x-0 top-full max-h-[calc(100vh-76px)] overflow-y-auto border-t border-[#102a24]/15 bg-[#fffdfa] px-4 py-5 shadow-[0_18px_40px_rgba(4,42,34,.16)] md:hidden">
           <div className="page-wrap flex flex-col gap-4">
             <NavLink to="/" onClick={close} className={navClass}>
               Gifts
