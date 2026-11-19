@@ -45,6 +45,24 @@ button,
 a {
   -webkit-tap-highlight-color: transparent;
 }
+a,
+button,
+[role="button"],
+label[for],
+summary,
+select,
+input[type="range"],
+input[type="file"],
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: pointer;
+}
+button:disabled,
+input:disabled,
+select:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
@@ -167,6 +185,19 @@ textarea:focus-visible {
   outline: none;
   border-color: var(--forest);
   box-shadow: 0 0 0 3px rgba(3, 89, 84, 0.12);
+}
+select.field {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.75rem 2.6rem 0.75rem 0.9rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23102a24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1.05rem 1.05rem;
+  text-overflow: ellipsis;
+}
+select.field:disabled {
+  color: #61746d;
 }
 input[type="range"] {
   accent-color: var(--forest);
