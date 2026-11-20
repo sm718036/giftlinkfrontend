@@ -50,8 +50,13 @@ export default function GiveawaysPage() {
           </div>
         )}
       </div>
-      <AppDialog open={open} onClose={() => setOpen(false)} title="Share a gift with the community">
-        <PostGiftForm onSuccess={() => setOpen(false)} />
+      <AppDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Share a gift"
+        description="A clear photo and a few honest details are all it takes."
+      >
+        <PostGiftForm onSuccess={() => setOpen(false)} onCancel={() => setOpen(false)} />
       </AppDialog>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-const AppDialog = ({ open, onClose, title, children }) => {
+const AppDialog = ({ open, onClose, title, description, children }) => {
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
@@ -36,23 +36,28 @@ const AppDialog = ({ open, onClose, title, children }) => {
       aria-labelledby="dialog-title"
     >
       <div
-        className="absolute inset-0 bg-[#04413b]/75 backdrop-blur-[3px]"
+        className="absolute inset-0 bg-[#04413b]/45 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[28px] border border-white/20 bg-[#fffdfa] text-[#102a24] shadow-[0_28px_90px_rgba(0,0,0,.3)] sm:max-h-[90vh] sm:rounded-[28px]">
-        <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[#035954] px-5 py-4 text-[#fffdfa] sm:px-7 sm:py-5">
-          <h2 id="dialog-title" className="mt-1 font-serif text-2xl text-[#f9b26a]">
-            {title}
-          </h2>
+      <div className="relative flex max-h-[94vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-[26px] border border-[#102a24]/10 bg-[#fffdfa] text-[#102a24] shadow-[0_32px_90px_rgba(4,42,34,.28)] sm:max-h-[90vh] sm:rounded-[26px]">
+        <div className="flex shrink-0 items-start justify-between gap-6 border-b border-[#102a24]/10 px-5 py-5 sm:px-7">
+          <div>
+            <h2 id="dialog-title" className="text-xl font-semibold tracking-[-.02em] sm:text-2xl">
+              {title}
+            </h2>
+            {description && (
+              <p className="mt-1 text-sm leading-6 text-[#52665f]">{description}</p>
+            )}
+          </div>
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="grid h-10 w-10 place-items-center rounded-full border border-white/20 text-white transition hover:border-[#f08a1a] hover:bg-[#f08a1a] hover:text-[#102a24]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-[#52665f] transition hover:bg-[#f2e9e2] hover:text-[#102a24]"
             aria-label={`Close ${title}`}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
         <div className="overflow-y-auto overscroll-contain p-5 sm:p-7">{children}</div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSearchGifts } from "../hooks/giftHooks";
 import { useWishlist, useAddToWishlist, useRemoveFromWishlist } from "../hooks/wishlistHooks";
@@ -33,6 +33,10 @@ export default function SearchPage() {
     return () => clearTimeout(timer);
   }, [filters]);
   const set = (key, value) => setFilters((p) => ({ ...p, [key]: value }));
+  const resetFilters = () => setFilters({ category: "", condition: "", ageInYears: 6, name: "" });
+  const hasActiveFilters = Boolean(
+    filters.category || filters.condition || filters.name || Number(filters.ageInYears) !== 6
+  );
   const add = async (id) => {
     try {
       await addToWishlist(id);
@@ -58,61 +62,86 @@ export default function SearchPage() {
           <span className="display-serif text-[#047669]">worth giving a new story.</span>
         </h1>
         <p className="section-copy">Search nearby gifts by name, room, condition, or age.</p>
-        <section className="surface my-10 p-5 md:p-7" aria-label="Gift filters">
-          <div className="grid gap-4 md:grid-cols-4">
-            <label className="form-label">
-              Category
-              <select
-                className="field mt-2"
-                value={filters.category}
-                onChange={(e) => set("category", e.target.value)}
+        <section
+          aria-label="Gift filters"
+          className="mt-8 mb-9 flex flex-col gap-2.5 rounded-[24px] border border-[#102a24]/10 bg-[#fffdfa]/70 p-2.5 backdrop-blur-sm sm:flex-row sm:items-center"
+        >
+          <div className="relative flex flex-1 items-center">
+            <Search
+              size={17}
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#61746d]"
+            />
+            <input
+              aria-label="Search gifts by name"
+              className="field !h-11 !min-h-11 !rounded-full !border-transparent !bg-[#f4ece5] !py-0 !pl-11 !pr-10"
+              placeholder="Search by name — bookshelf, lamp…"
+              value={filters.name}
+              onChange={(e) => set("name", e.target.value)}
+            />
+            {filters.name && (
+              <button
+                type="button"
+                onClick={() => set("name", "")}
+                aria-label="Clear search text"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-[#61746d] transition hover:bg-[#e7dcd2] hover:text-[#102a24]"
               >
-                <option value="">All categories</option>
-                {["Living", "Bedroom", "Bathroom", "Kitchen", "Office"].map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </label>
-            <label className="form-label">
-              Condition
-              <select
-                className="field mt-2"
-                value={filters.condition}
-                onChange={(e) => set("condition", e.target.value)}
-              >
-                <option value="">Any condition</option>
-                {["New", "Like New", "Older"].map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </select>
-            </label>
-            <label className="form-label">
-              Maximum age: {filters.ageInYears} years
-              <div className="mt-2 flex h-12 items-center">
-                <input
-                  type="range"
-                  className="w-full"
-                  min="1"
-                  max="10"
-                  value={filters.ageInYears}
-                  onChange={(e) => set("ageInYears", e.target.value)}
-                />
-              </div>
-            </label>
-            <label className="form-label">
-              Search by name
-              <div className="relative mt-2">
-                <Search className="absolute left-3 top-3.5 text-[#61746d]" size={18} />
-                <input
-                  className="field !pl-10"
-                  placeholder="Bookshelf, lamp…"
-                  value={filters.name}
-                  onChange={(e) => set("name", e.target.value)}
-                />
-              </div>
-            </label>
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-2.5 sm:contents">
+            <select
+              aria-label="Category"
+              className="field !h-11 !min-h-11 !rounded-full !bg-[#fffdfa] !py-0 sm:!w-auto"
+              value={filters.category}
+              onChange={(e) => set("category", e.target.value)}
+            >
+              <option value="">All categories</option>
+              {["Living", "Bedroom", "Bathroom", "Kitchen", "Office"].map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+            <select
+              aria-label="Condition"
+              className="field !h-11 !min-h-11 !rounded-full !bg-[#fffdfa] !py-0 sm:!w-auto"
+              value={filters.condition}
+              onChange={(e) => set("condition", e.target.value)}
+            >
+              <option value="">Any condition</option>
+              {["New", "Like New", "Older"].map((v) => (
+                <option key={v}>{v}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex h-11 items-center gap-3 rounded-full border border-[#102a24]/15 bg-[#fffdfa] px-4">
+            <span className="whitespace-nowrap text-xs font-bold uppercase tracking-[.1em] text-[#52665f]">
+              Up to {filters.ageInYears} {Number(filters.ageInYears) === 1 ? "yr" : "yrs"}
+            </span>
+            <input
+              aria-label="Maximum age in years"
+              type="range"
+              className="w-full sm:w-24"
+              min="1"
+              max="10"
+              value={filters.ageInYears}
+              onChange={(e) => set("ageInYears", e.target.value)}
+            />
           </div>
         </section>
+
+        {hasActiveFilters && (
+          <div className="mb-4 flex justify-end">
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#102a24]/15 bg-[#fffdfa] px-3 py-1.5 text-xs font-bold text-[#035954] transition hover:bg-[#f2e9e2]"
+            >
+              <X size={12} /> Clear filters
+            </button>
+          </div>
+        )}
         {isFindingGifts ? (
           <Loader />
         ) : errorInFindingGifts ? (
